@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const SystemUiOverlayStyle(statusBarColor: Colors.transparent);
-    return const MaterialApp(
+    return  MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ToDo App',
       home: Home(),
