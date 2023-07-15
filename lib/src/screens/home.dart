@@ -4,10 +4,20 @@ import 'package:to_do_list/src/widgets/todo_item.dart';
 
 import '../model/todo.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   Home({super.key});
 
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   final todoList = ToDo.todoList();
+  void _handleToDoChange(ToDo todo) {
+    setState(() {
+      todo.isDone = !todo.isDone;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +48,8 @@ class Home extends StatelessWidget {
                       for (ToDo todo in todoList)
                         ToDoItem(
                           todo: todo,
+                          onToDoChanged: _handleToDoChange,
+                          onDeleteItem: (){},
                         ),
                     ],
                   ),
