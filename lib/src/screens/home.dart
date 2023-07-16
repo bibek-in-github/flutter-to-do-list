@@ -13,16 +13,27 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final todoList = ToDo.todoList();
+  final _todoController = TextEditingController();
+
   void _handleToDoChange(ToDo todo) {
     setState(() {
       todo.isDone = !todo.isDone;
     });
   }
-   void _deleteToDoItem(String id) {
+
+  void _deleteToDoItem(String id) {
     setState(() {
-        todoList.removeWhere((item) => item.id == id);
+      todoList.removeWhere((item) => item.id == id);
     });
-  
+  }
+
+  void _addToDoItem(String toDo) {
+    setState(() {
+      todoList.add(ToDo(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          todoText: toDo));
+    });
+    _todoController.clear();
   }
 
   @override
@@ -85,6 +96,7 @@ class _HomeState extends State<Home> {
                         ],
                         borderRadius: BorderRadius.circular(10.0)),
                     child: TextField(
+                      controller: _todoController,
                       decoration: InputDecoration(
                         hintText: 'Add a new ToDo item',
                         border: InputBorder.none,
@@ -95,7 +107,9 @@ class _HomeState extends State<Home> {
                 Container(
                   margin: const EdgeInsets.only(bottom: 20.0, right: 20.0),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _addToDoItem(_todoController.text);
+                    },
                     child: Text(
                       '+',
                       style: TextStyle(fontSize: 40.0),
