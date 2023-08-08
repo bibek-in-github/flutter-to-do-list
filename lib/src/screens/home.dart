@@ -31,32 +31,55 @@ class _HomeState extends State<Home> {
       body: Stack(
         children: [
           Container(
-            padding: const EdgeInsetsDirectional.symmetric(
-                horizontal: 20.0, vertical: 15.0),
+            padding: const EdgeInsets.only(
+              top: 0,
+              bottom: 15,
+              left: 20,
+              right: 20,
+            ),
+            // padding: const EdgeInsetsDirectional.symmetric(
+            //     horizontal: 20.0, vertical: 15.0),
             child: Column(
               children: [
-                searchBox(),
+                Container(
+                  color: tdBGColor,
+                  child: Column(
+                    children: [
+                      SizedBox(height: 15),
+                      searchBox(),
+                      Row(
+                        children: [
+                          Container(
+                            margin:
+                                const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                            child: const Text(
+                              'All ToDos',
+                              style: TextStyle(
+                                fontSize: 30.0,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
                 Expanded(
                   child: ListView(
                     children: [
-                      Container(
-                        margin: const EdgeInsets.only(top: 50.0, bottom: 20.0),
-                        child: const Text(
-                          'All ToDos',
-                          style: TextStyle(
-                            fontSize: 30.0,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
                       for (ToDo todoo in _foundToDo.reversed)
                         ToDoItem(
                           todo: todoo,
                           onToDoChanged: _handleToDoChange,
                           onDeleteItem: _deleteToDoItem,
                         ),
+                      const SizedBox(
+                        height: 60.0,
+                      ),
                     ],
                   ),
+                  // ),
                 ),
               ],
             ),
@@ -116,7 +139,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-   void _handleToDoChange(ToDo todo) {
+  void _handleToDoChange(ToDo todo) {
     setState(() {
       todo.isDone = !todo.isDone;
     });
@@ -136,6 +159,7 @@ class _HomeState extends State<Home> {
     });
     _todoController.clear();
   }
+
   void _runFilter(String enteredKeyword) {
     List<ToDo> results = [];
     if (enteredKeyword.isEmpty) {
@@ -152,56 +176,55 @@ class _HomeState extends State<Home> {
     });
   }
 
+  Widget searchBox() {
+    return Container(
+      padding: const EdgeInsetsDirectional.symmetric(horizontal: 15.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      child: TextField(
+        onChanged: (value) => _runFilter(value),
+        decoration: InputDecoration(
+            contentPadding: const EdgeInsets.all(0.0),
+            prefixIcon: Icon(
+              Icons.search,
+              color: Colors.black,
+              size: 20.0,
+            ),
+            prefixIconConstraints:
+                BoxConstraints(maxHeight: 20.0, minWidth: 25.0),
+            border: InputBorder.none,
+            hintText: 'Search',
+            hintStyle: TextStyle(color: tdGrey)),
+      ),
+    );
+  }
 
-Widget searchBox() {
-  return Container(
-    padding: const EdgeInsetsDirectional.symmetric(horizontal: 15.0),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(20.0),
-    ),
-    child: TextField(
-     onChanged: (value) => _runFilter(value),
-      decoration: InputDecoration(
-          contentPadding: const EdgeInsets.all(0.0),
-          prefixIcon: Icon(
-            Icons.search,
-            color: Colors.black,
-            size: 20.0,
+  AppBar _buildAppBar() {
+    return AppBar(
+      backgroundColor: tdBGColor,
+      elevation: 0,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Icon(
+            Icons.menu,
+            color: tdBlack,
+            size: 30.0,
           ),
-          prefixIconConstraints:
-              BoxConstraints(maxHeight: 20.0, minWidth: 25.0),
-          border: InputBorder.none,
-          hintText: 'Search',
-          hintStyle: TextStyle(color: tdGrey)),
-    ),
-  );
-}
-
-AppBar _buildAppBar() {
-  return AppBar(
-    backgroundColor: tdBGColor,
-    elevation: 0,
-    title: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        const Icon(
-          Icons.menu,
-          color: tdBlack,
-          size: 30.0,
-        ),
-        Container(
-          height: 40.0,
-          width: 40.0,
-          child: ClipRRect(
-            child: Image.asset('assests/images/bibek.jpg'),
-            borderRadius: BorderRadius.circular(20.0),
+          Container(
+            height: 40.0,
+            width: 40.0,
+            child: ClipRRect(
+              child: Image.asset('assests/images/bibek.jpg'),
+              borderRadius: BorderRadius.circular(20.0),
+            ),
           ),
-        ),
-      ],
-    ),
-  );
-}
+        ],
+      ),
+    );
+  }
 }
 
 // import 'package:flutter/material.dart';
