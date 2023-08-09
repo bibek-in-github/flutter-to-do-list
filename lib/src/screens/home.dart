@@ -45,9 +45,10 @@ class _HomeState extends State<Home> {
                   color: tdBGColor,
                   child: Column(
                     children: [
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       searchBox(),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
                             margin:
@@ -60,6 +61,63 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                           ),
+                          Container(
+                            margin: const EdgeInsets.only(right: 20),
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              color: tdRed,
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: PopupMenuButton<int>(
+                                icon: const Icon(Icons.delete),
+                                color: Colors.white,
+                                onSelected: (value) => {
+                                      if (value == 1)
+                                        {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                title: const Text('Delete All'),
+                                                content: const Text(
+                                                    'Are you sure you want to delete all the items?'),
+                                                actions: [
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text('Cancel')),
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          todoList.clear();
+                                                        });
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child:
+                                                          Text('Delete All')),
+                                                ],
+                                              );
+                                            },
+                                          ),
+                                        }
+                                      else
+                                        {
+                                          print('Delete Completed Only'),
+                                        }
+                                    },
+                                itemBuilder: (context) => [
+                                      const PopupMenuItem<int>(
+                                        value: 1,
+                                        child: Text("Delete All"),
+                                      ),
+                                      const PopupMenuItem<int>(
+                                        value: 2,
+                                        child: Text("Delete Completed Only"),
+                                      )
+                                    ]),
+                          )
                         ],
                       ),
                     ],
